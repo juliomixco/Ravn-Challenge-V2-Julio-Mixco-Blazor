@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ljk5VV1xuEopRwzYSm1pfx2djG/mRJZXzksayGZr4M9EvUTP7ye6J0eqRP5BGEXgOVClXQiUCLF5y4d+7uc1LQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\julio\\Documents\\projects\\SwapiChallenge\\SwapiChallenge\\Infrastructure\\SwapiChallenge.Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\julio\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

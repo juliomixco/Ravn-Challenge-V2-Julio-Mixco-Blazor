@@ -1,0 +1,44 @@
+@page "/starwars"
+@using SwapiChallenge.Shared
+@inject HttpClient Http
+
+<h1>Ravn Star Wars Registry</h1>
+
+@if (people == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Height</th>
+                <th>Hair Color</th>
+                <th>World</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in people)
+            {
+                <tr>
+                    <td>@person.name</td>
+                    <td>@person.height</td>
+                    <td>@person.hair_color</td>
+                    <td>@person.homeworld</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Person[] people;
+
+    protected override async Task OnInitializedAsync()
+    {
+        people = await Http.GetFromJsonAsync<Person[]>("api/starwars");
+    }
+
+}
