@@ -1,0 +1,17 @@
+@using SwapiChallenge.Shared.Data;
+<div class="person-cell">
+    <div class="h2">
+        @person.name
+
+    </div>
+    <div class="low-emphasis">
+        @person.homeworld
+    </div>
+    <div class="cell-bottom-border"></div>
+</div>
+
+@code {
+    // Demonstrates how a parent component can supply parameters
+    [Parameter]
+    public Person person { get; set; }
+}
