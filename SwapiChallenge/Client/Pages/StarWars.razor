@@ -9,28 +9,12 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Height</th>
-                <th>Hair Color</th>
-                <th>World</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var person in people)
-            {
-            <tr>
-                <td>@person.name</td>
-                <td>@person.height</td>
-                <td>@person.hair_color</td>
-                <td>@person.homeworld?.name</td>
-                <td>@person.species?.FirstOrDefault()?.name</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+
+    @foreach (var person in people)
+    {
+        <PersonCell person="person"></PersonCell>
+    }
+
 }
 </div>
 

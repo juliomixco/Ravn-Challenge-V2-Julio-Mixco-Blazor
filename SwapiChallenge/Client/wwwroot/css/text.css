@@ -23,6 +23,7 @@ h2,
     align-items: center;
     letter-spacing: 0.0125em;
     color: var(--color-text-dark);
+    margin: 0;
 }
 
     h2.low-emphasis,

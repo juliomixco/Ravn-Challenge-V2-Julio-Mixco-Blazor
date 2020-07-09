@@ -1,17 +1,31 @@
 @using SwapiChallenge.Shared.Data;
 <div class="person-cell">
-    <div class="h2">
-        @person.name
 
+    <div class="person-cell__content">
+        <div class="person-cell__info">
+
+            <div class="h2">
+                @person.name
+
+            </div>
+            <div class="low-emphasis">
+              @formatSpecies() from  @person.homeworld.name
+            </div>
+        </div>
+        <div class="person-cell__arrow">
+            <span class="arrow-icon"></span>
+        </div>
     </div>
-    <div class="low-emphasis">
-        @person.homeworld
-    </div>
-    <div class="cell-bottom-border"></div>
+    <div class="person-cell__bottom-border"></div>
 </div>
 
 @code {
     // Demonstrates how a parent component can supply parameters
     [Parameter]
     public Person person { get; set; }
+
+    protected string formatSpecies()
+    {
+        return String.Join(" , ", person.species.Select(s => s.name));
+    }
 }
