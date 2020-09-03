@@ -1,0 +1,71 @@
+@using SwapiChallenge.Shared.Data;
+<div class="person-detail__wrapper">
+
+    <div class="person-detail__content">
+
+
+        <div class="h2 person-detail__section-title">
+            General Information
+
+        </div>
+        <div class="person-detail__info">
+
+            <div class="info-item">
+                <div class="h2 low-emphasis">
+                    Eye Color
+
+                </div>
+                <div class="low-emphasis">
+                    @person.eye_color
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="h2 low-emphasis">
+                    Hair Color
+
+                </div>
+                <div class="low-emphasis">
+                    @person.hair_color
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="h2 low-emphasis">
+                    Skin Color
+
+                </div>
+                <div class="low-emphasis">
+                    @person.skin_color
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="h2 low-emphasis">
+                    Birth Year
+                </div>
+                <div class="low-emphasis">
+                    @person.birth_year
+                </div>
+            </div>
+
+        </div>
+        <div class="h2 person-detail__section-title">
+            Vehicles
+        </div>
+        <div class="person-detail__info">
+
+            @foreach (var vehicle in person.vehicles)
+            {
+                <div class="h2 low-emphasis">
+                    @vehicle
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Person person { get; set; }
+
+}

@@ -2,30 +2,47 @@
 @using SwapiChallenge.Shared.Data
 @inject HttpClient Http
 
-<div class="people-list">
-@if (people == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
+<div class="d-flex">
 
-    @foreach (var person in people)
-    {
-        <PersonCell person="person"></PersonCell>
-    }
+    <div class="people-list">
+        @if (people == null)
+        {
+            <p><em>Loading...</em></p>
+        }
+        else
+        {
 
-}
+            @foreach (var person in people)
+            {
+                <PersonCell person="person" OnClickCallback="@(()=>selectPerson(person))"></PersonCell>
+            }
+
+        }
+    </div>
+    <div class="person-detail flex-grow-1">
+
+        @if (selectedPerson != null)
+        {
+
+            <PersonDetail person="selectedPerson"></PersonDetail>
+        }
+    </div>
 </div>
-
 
 
 @code {
     private Person[] people;
 
+    private Person selectedPerson;
+
     protected override async Task OnInitializedAsync()
     {
         people = await Http.GetFromJsonAsync<Person[]>("api/starwars");
+    }
+
+    private void selectPerson(Person person)
+    {
+        selectedPerson = person;
     }
 
 }

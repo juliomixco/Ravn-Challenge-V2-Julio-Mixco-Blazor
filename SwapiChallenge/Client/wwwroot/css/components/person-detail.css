@@ -1,0 +1,24 @@
+﻿
+.person-detail__wrapper {
+    display: flex;
+    padding: 0px 100px;
+    justify-content: center;
+}
+
+.person-detail__content {
+    width: 100%;
+}
+
+.person-detail__section-title {
+    margin-bottom: 8px;
+    margin-top: 32px;
+}
+
+.info-item {
+    height: 48px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
