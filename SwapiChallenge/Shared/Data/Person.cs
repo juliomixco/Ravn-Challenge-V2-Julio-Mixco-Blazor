@@ -21,7 +21,7 @@ namespace SwapiChallenge.Shared.Data
         public Planet homeworld { get; set; }
         public List<string> films { get; set; }
         public List<Species> species { get; set; }
-        public List<string> vehicles { get; set; }
+        public List<Vehicle> vehicles { get; set; }
         public List<string> starships { get; set; }
         public Person() { }
         public Person(
@@ -29,7 +29,7 @@ namespace SwapiChallenge.Shared.Data
             Planet homeworld,
             List<Species> species,
             List<string> films,
-            List<string> vehicles,
+            List<Vehicle> vehicles,
             List<string> starships
         )
         {

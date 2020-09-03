@@ -18,6 +18,7 @@ namespace SwapiChallenge.Infrastructure.Services
         public async Task<IEnumerable<Person>> GetPeopleAsync(int page)
         {
             var people = await RequestAllPeople(page);
+            if (people == null) return new Person[] { };
             var enhancedPeople = await Task.WhenAll(people.Select(async p => await EnhancePerson(p)));
             return enhancedPeople;
         }
@@ -31,20 +32,24 @@ namespace SwapiChallenge.Infrastructure.Services
         private async Task<Planet> RequestPlanet(string url) => await GetRequest<Planet>(url);
 
         private async Task<Species> RequestSpecies(string url) => await GetRequest<Species>(url);
+        private async Task<Vehicle> RequestVehicle(string url) => await GetRequest<Vehicle>(url);
 
         private async Task<Person> EnhancePerson(SwapiPerson person)
         {
             var homeworldRequest = RequestPlanet(person.homeworld);
             var speciesTsks = person.species.Select(s => RequestSpecies(s));
-            var species = (await Task.WhenAll(speciesTsks)).ToList();
+            var vehicleTsks = person.vehicles.Select(s => RequestVehicle(s));
+
             var homeworld = await homeworldRequest;
+            var species = (await Task.WhenAll(speciesTsks)).ToList();
+            var vehicles = (await Task.WhenAll(vehicleTsks)).ToList();
 
             return new Person(
                 person,
                 homeworld,
                 species,
                 person.films,
-                person.vehicles,
+                vehicles,
                 person.starships
              );
         }
