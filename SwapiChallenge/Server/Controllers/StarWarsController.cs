@@ -25,13 +25,13 @@ namespace SwapiChallenge.Server.Controllers
 
         // GET: api/<StarWarsController>
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync([FromQuery] int page = 1)
         {
-           var people= await  SwapiService.GetPeopleAsync(1);
+            var people = await SwapiService.GetPeopleAsync(page);
             return Ok(people);
-           
+
         }
 
-       
+
     }
 }

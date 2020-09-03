@@ -18,6 +18,7 @@ namespace SwapiChallenge.Infrastructure.Services
         public async Task<IEnumerable<Person>> GetPeopleAsync(int page)
         {
             var people = await RequestAllPeople(page);
+            if (people == null) return new Person[] { };
             var enhancedPeople = await Task.WhenAll(people.Select(async p => await EnhancePerson(p)));
             return enhancedPeople;
         }

@@ -5,7 +5,7 @@
 <div class="d-flex">
 
     <div class="people-list">
-        @if (people == null)
+        @if (people == null || people.Count == 0)
         {
             <p><em>Loading...</em></p>
         }
@@ -31,13 +31,34 @@
 
 
 @code {
-    private Person[] people;
+    private List<Person> people = new List<Person>();
 
     private Person selectedPerson;
 
+    private int currentPage = 1;
+
+
+
     protected override async Task OnInitializedAsync()
     {
-        people = await Http.GetFromJsonAsync<Person[]>("api/starwars");
+        fetchData();
+    }
+
+
+    async void fetchData()
+    {
+        Person[] response;
+        do
+        {
+            response = await Http.GetFromJsonAsync<Person[]>($"api/starwars?page={currentPage}");
+            if (response.Length > 0)
+            {
+
+                people.AddRange(response);
+                currentPage++;
+                StateHasChanged();
+            }
+        } while (response.Length > 0);
     }
 
     private void selectPerson(Person person)
