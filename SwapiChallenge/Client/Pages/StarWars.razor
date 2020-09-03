@@ -5,18 +5,25 @@
 <div class="d-flex">
 
     <div class="people-list">
-        @if (people == null || people.Count == 0)
+        @if (people != null)
         {
-            <p><em>Loading...</em></p>
-        }
-        else
-        {
-
             @foreach (var person in people)
             {
                 <PersonCell person="person" OnClickCallback="@(()=>selectPerson(person))"></PersonCell>
             }
+        }
 
+        @if (isLoading)
+        {
+
+            <LoadingIndicator></LoadingIndicator>
+
+        }
+        @if (!isLoading && (people == null || people.Count == 0))
+        {
+            <div class="error-cell">
+                <div class="h2 high-emphasis">Failed to Load Data</div>
+            </div>
         }
     </div>
     <div class="person-detail flex-grow-1">
@@ -26,6 +33,7 @@
 
             <PersonDetail person="selectedPerson"></PersonDetail>
         }
+
     </div>
 </div>
 
@@ -37,9 +45,13 @@
 
     private int currentPage = 1;
 
+    private bool isLoading;
+
+    private string error;
 
 
-    protected override async Task OnInitializedAsync()
+
+    protected override void OnInitialized()
     {
         fetchData();
     }
@@ -47,18 +59,30 @@
 
     async void fetchData()
     {
+        isLoading = true;
+        StateHasChanged();
         Person[] response;
-        do
+        try
         {
-            response = await Http.GetFromJsonAsync<Person[]>($"api/starwars?page={currentPage}");
-            if (response.Length > 0)
-            {
 
-                people.AddRange(response);
-                currentPage++;
-                StateHasChanged();
-            }
-        } while (response.Length > 0);
+            do
+            {
+                response = await Http.GetFromJsonAsync<Person[]>($"api/starwars?page={currentPage}");
+                if (response.Length > 0)
+                {
+
+                    people.AddRange(response);
+                    currentPage++;
+                    StateHasChanged();
+                }
+            } while (response.Length > 0);
+        }
+        catch (Exception err)
+        {
+            error = err.Message;
+        }
+        isLoading = false;
+        StateHasChanged();
     }
 
     private void selectPerson(Person person)
