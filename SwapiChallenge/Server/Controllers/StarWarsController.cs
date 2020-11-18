@@ -25,36 +25,13 @@ namespace SwapiChallenge.Server.Controllers
 
         // GET: api/<StarWarsController>
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync([FromQuery] int page = 1)
         {
-           var people= await  SwapiService.GetPeopleAsync(1);
+            var people = await SwapiService.GetPeopleAsync(page);
             return Ok(people);
-           
+
         }
 
-        // GET api/<StarWarsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
 
-        // POST api/<StarWarsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<StarWarsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<StarWarsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

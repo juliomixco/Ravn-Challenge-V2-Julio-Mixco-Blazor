@@ -1,0 +1,33 @@
+@using SwapiChallenge.Shared.Data;
+<div class="person-cell" @onclick="OnClickCallback">
+
+    <div class="person-cell__content">
+        <div class="person-cell__info">
+
+            <div class="h2">
+                @person.name
+
+            </div>
+            <div class="low-emphasis">
+              @formatSpecies() from  @person.homeworld.name
+            </div>
+        </div>
+        <div class="person-cell__arrow">
+            <span class="arrow-icon"></span>
+        </div>
+    </div>
+    <div class="person-cell__bottom-border"></div>
+</div>
+
+@code {
+    [Parameter]
+    public Person person { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+
+    protected string formatSpecies()
+    {
+        return String.Join(" , ", person.species.Select(s => s.name));
+    }
+}

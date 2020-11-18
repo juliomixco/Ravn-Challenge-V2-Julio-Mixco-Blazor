@@ -1,0 +1,17 @@
+﻿
+.loading-indicator__cell {
+    width: 100%;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-indicator {
+    width: 97px;
+    height: 24px;
+    background-image: url('../../icons/LoadingIndicator.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}

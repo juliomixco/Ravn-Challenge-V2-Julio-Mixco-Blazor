@@ -1,44 +1,93 @@
 @page "/starwars"
-@using SwapiChallenge.Shared
+@using SwapiChallenge.Shared.Data
 @inject HttpClient Http
 
-<h1>Ravn Star Wars Registry</h1>
+<div class="d-flex">
 
-@if (people == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Height</th>
-                <th>Hair Color</th>
-                <th>World</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="people-list">
+        @if (people != null)
+        {
             @foreach (var person in people)
             {
-                <tr>
-                    <td>@person.name</td>
-                    <td>@person.height</td>
-                    <td>@person.hair_color</td>
-                    <td>@person.homeworld</td>
-                </tr>
+                <PersonCell person="person" OnClickCallback="@(()=>selectPerson(person))"></PersonCell>
             }
-        </tbody>
-    </table>
-}
+        }
+
+        @if (isLoading)
+        {
+
+            <LoadingIndicator></LoadingIndicator>
+
+        }
+        @if (!isLoading && (people == null || people.Count == 0))
+        {
+            <div class="error-cell">
+                <div class="h2 high-emphasis">Failed to Load Data</div>
+            </div>
+        }
+    </div>
+    <div class="person-detail flex-grow-1">
+
+        @if (selectedPerson != null)
+        {
+
+            <PersonDetail person="selectedPerson"></PersonDetail>
+        }
+
+    </div>
+</div>
+
 
 @code {
-    private Person[] people;
+    private List<Person> people = new List<Person>();
 
-    protected override async Task OnInitializedAsync()
+    private Person selectedPerson;
+
+    private int currentPage = 1;
+
+    private bool isLoading;
+
+    private string error;
+
+
+
+    protected override void OnInitialized()
     {
-        people = await Http.GetFromJsonAsync<Person[]>("api/starwars");
+        fetchData();
+    }
+
+
+    async void fetchData()
+    {
+        isLoading = true;
+        StateHasChanged();
+        Person[] response;
+        try
+        {
+
+            do
+            {
+                response = await Http.GetFromJsonAsync<Person[]>($"api/starwars?page={currentPage}");
+                if (response.Length > 0)
+                {
+
+                    people.AddRange(response);
+                    currentPage++;
+                    StateHasChanged();
+                }
+            } while (response.Length > 0);
+        }
+        catch (Exception err)
+        {
+            error = err.Message;
+        }
+        isLoading = false;
+        StateHasChanged();
+    }
+
+    private void selectPerson(Person person)
+    {
+        selectedPerson = person;
     }
 
 }
